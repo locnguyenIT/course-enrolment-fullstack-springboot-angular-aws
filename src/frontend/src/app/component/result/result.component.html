@@ -1,0 +1,133 @@
+<div class="container" id="main-container">
+  <form class="search">
+    <!-- use (ngModelChange) to listen everytime input change something in search -->
+     <input class="form-search" type="search" (ngModelChange)="searchResult(input.value)" #input="ngModel" ngModel
+     name="input" placeholder="Search user, course..." aria-label="Search">
+     <button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#addModal">Add</button>
+  </form>    
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+                <th scope="col">Photo</th>
+                <th scope="col">User</th>
+                <th scope="col">Course</th>
+                <th scope="col">Photo</th>
+                <th scope="col">Grade</th>
+                <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- repeat <tr> tag with *ngFor loop to get all student -->
+                <tr class ="table-tr-hover" *ngFor="let result of listResult">
+                    <td><img src="http://courseenrollmentmanagementapplicaion-env.eba-tkyegmya.ap-southeast-1.elasticbeanstalk.com/api/user/show/{{result?.user?.id}}/download/image"></td>
+                    <td>{{result?.user?.name}}</td>
+                    <td>{{result?.course?.name}}</td>
+                    <td><img src="http://courseenrollmentmanagementapplicaion-env.eba-tkyegmya.ap-southeast-1.elasticbeanstalk.com/api/course/show/{{result?.course?.id}}/download/image"></td>
+                    <td>{{result?.grade}}</td>
+                    <td>
+                      <!-- Delete Modal -->
+                      <button  class="btn btn-outline-danger" (click)="getResult(result)"  data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                      <!-- Edit Modal -->
+                      <button  class="btn btn-outline-primary" (click)="getResult(result)"  data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+                    </td>
+                  </tr>
+          </tbody>
+        </table>
+</div>
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Result</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form #addForm="ngForm" id="main-form-add" (ngSubmit)="addResult(addForm)">
+              <div class="form-group">
+                  <label for="userId">User</label>
+                  <select class="form-select" ngModel name ="userId" aria-label="Default select example" required>
+                      <option  value ="" selected disabled hidden>Choose a user</option>
+                      <option  *ngFor="let user of listUser" [value]="user?.id">{{user?.name}}</option>
+                    </select>
+              </div>
+              <div class="form-group">
+                  <label for="courseId">Course</label>
+                  <select class="form-select" ngModel name ="courseId" aria-label="Default select example" required>
+                      <option  value ="" selected disabled hidden>Choose a course</option>
+                      <option  *ngFor="let course of listCourse" [value]="course?.id">{{course?.name}}</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                <label for="grade">Grade</label>
+                <select class="form-select" ngModel name ="grade" aria-label="Default select example" required>
+                  <option  value ="" selected disabled hidden>Choose the grade</option>
+                  <option  *ngFor="let grade of listGrade" [value]="grade">{{grade}}</option>
+                </select>
+              </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn-close" id="btn-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button [disabled]="addForm.invalid"  type="submit" class="btn btn-primary" >Save changes</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Result</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete this result ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-no-delete" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button (click)="deleteResult(result?.user?.id, result?.course?.id)" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal  -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Teacher</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm">
+            <div class="form-group">
+                <label for="user">User</label>
+                <input type="text" ngModel={{result?.user?.name}} name ="user" class="form-control" id="user"  disabled>
+                <input type="hidden" ngModel={{result?.user?.id}} name ="userId" class="form-control" id="courseId">
+            </div>
+            <div class="form-group">
+                <label for="course">Course</label>
+                <input type="text" ngModel={{result?.course?.name}} name ="course" class="form-control" id="course" disabled>
+                <input type="hidden" ngModel={{result?.course?.id}} name ="courseId" class="form-control" id="courseId">
+            </div>
+            <div class="form-group">
+              <label for="grade">Grade</label>
+              <select class="form-select" ngModel={{result?.grade}} name ="grade" aria-label="Default select example" required>
+                <option   selected disabled hidden>{{result?.grade}}</option>
+                <option  *ngFor="let grade of listGrade" [value]="grade">{{grade}}</option>
+              </select>
+            </div>
+          <div class="modal-footer">
+              <button type="button" id="btn-edit-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button (click)="updateResult(updateForm)"  type="submit" class="btn btn-primary" >Save changes</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

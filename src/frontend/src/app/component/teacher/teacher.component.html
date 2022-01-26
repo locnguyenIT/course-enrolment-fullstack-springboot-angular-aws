@@ -1,0 +1,129 @@
+<div class="container" id="main-container">
+  <form class="search">
+    <!-- use (ngModelChange) to listen everytime input change something in search -->
+     <input class="form-search" type="search" (ngModelChange)="searchTeacher(input.value)" #input="ngModel" ngModel
+     name="input" placeholder="Search..." aria-label="Search">
+     <button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#addModal">Add</button>
+  </form>    
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Photo</th>
+              <th scope="col">Teacher Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Specialize</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- repeat <tr> tag with *ngFor loop to get all student -->
+            <tr class ="table-tr-hover" *ngFor="let teacher of listTeacher">
+              <!-- <td><img src="http://localhost:8080/api/teacher/show/{{teacher?.id}}/download/image"></td> -->
+              <td><img src="http://courseenrollmentmanagementapplicaion-env.eba-tkyegmya.ap-southeast-1.elasticbeanstalk.com/api/teacher/show/{{teacher?.id}}/download/image"></td>
+              <td>{{teacher?.id}}</td>
+              <td>{{teacher?.name}}</td>
+              <td>{{teacher?.email}}</td>
+              <td>{{teacher?.specialize}}</td>
+              <td>
+                <!-- Delete Modal -->
+                <button  class="btn btn-outline-danger" (click)="getTeacher(teacher)" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                <!-- Edit Modal -->
+                <button  class="btn btn-outline-primary" (click)="getTeacher(teacher)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Teacher</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form #addForm="ngForm" id="main-form-add" (ngSubmit)="addTeacher(addForm)">
+              <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" ngModel name="email" class="form-control" id="email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+              <label for="specialize">Specialize</label>
+              <input type="text" ngModel name="specialize" class="form-control" id="specialize" placeholder="Specialize" required>
+            </div>
+            <div class="form-group">
+              <label for="image">Image</label>
+              <input type="file" class="form-control" accept="image/png, image/jpeg, image/gif" id="image" placeholder="Image"  (change)="fileSelected($event)" required>
+            </div>
+              <div class="modal-footer">
+                  <button type="button" id="add-student-close" id="btn-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button [disabled]="addForm.invalid"  type="submit" class="btn btn-primary" >Save changes</button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Teacher</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete teacher {{teacher?.name}} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-no-delete" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+    
+        <button (click)="deleteTeacher(teacher?.id)" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal  -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Teacher</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm">
+          <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" ngModel={{teacher?.name}} name ="name" class="form-control" id="name" placeholder="Name" required>
+          </div>
+          <input type="hidden" ngModel={{teacher?.id}} name ="id" class="form-control" id="id">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" ngModel={{teacher?.email}} name ="email" class="form-control" id="email" placeholder="Email" required>
+          </div>
+          <div class="form-group">
+            <label for="specialize">Specialize</label>
+            <input type="text" ngModel={{teacher?.specialize}} name ="specialize" class="form-control" id="specialize" placeholder="Specialize" required>
+          </div>
+          <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" class="form-control" accept="image/png, image/jpeg, image/gif" id="image" placeholder="Image"  (change)="fileSelected($event)" required>
+          </div>
+          <div class="modal-footer">
+              <button type="button" id="btn-edit-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button (click)="updateTeacher(updateForm)"  type="submit" class="btn btn-primary" >Save changes</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

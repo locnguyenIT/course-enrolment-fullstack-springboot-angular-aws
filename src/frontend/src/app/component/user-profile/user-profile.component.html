@@ -1,0 +1,130 @@
+
+<div class="container">
+<div class="row flex-lg-nowrap">
+  <div class="col">
+    <div class="row">
+      <div class="col mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="e-profile">
+              <div class="row">
+                <div class="col-12 col-sm-auto mb-3">
+                  <div class="mx-auto" style="width: 140px;">
+                    <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px">
+                      <!-- <td><img class="user-profile-image" src="http://localhost:8080/api/user/show/{{user?.id}}/download/image"></td> -->
+                      <img class="user-profile-image" src="http://courseenrollmentmanagementapplicaion-env.eba-tkyegmya.ap-southeast-1.elasticbeanstalk.com/api/user/show/{{user?.id}}/download/image">
+                    </div>
+                  </div>
+                  <button class="btn btn-primary" type="button" (click)="changePhoto()">
+                    <i class="fa fa-fw fa-camera"></i>
+                    <input id="button-file" type="file" accept="image/png, image/jpeg, image/gif" (change)="fileSelected($event)" hidden/>
+                    <span>Change Photo</span>
+                  </button>
+                </div>
+              </div>
+              <div class="tab-content pt-3">
+                <div class="tab-pane active">
+                  <form class="form" #userProfileForm="ngForm" >
+                    <div class="row">
+                      <div class="col">
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>ID</label>
+                              <input type="text" class="form-control"  ngModel={{user?.id}} name ="id" readonly> 
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Name</label>
+                              <input class="form-control" type="text" ngModel={{user?.name}} name="name"> 
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Email</label>
+                              <input class="form-control" type="text" ngModel={{user?.email}} name="email">
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Address</label>
+                              <input class="form-control" type="text" ngModel={{user?.address}} name="address" >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-sm-6 mb-3">
+                        <div class="row">
+                          <div class="form-group">
+                            <label for="role">Role</label>
+                            <select class="form-select" ngModel={{user?.role?.id}} name ="roleId" aria-label="Default select example" required>
+                              <option [value]="user?.role?.id" selected disabled hidden>{{user?.role?.name}}</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                              <div class="form-group">
+                                   <label for="register">Register At</label>
+                                   <input class="form-control" type="datetime-local" [value]="user?.register_at" disabled>
+                               </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                        <div class="mb-2"><b>Account setting</b></div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="custom-controls-stacked px-2">
+                              <div class="form-group">
+                                <label for="enable">Status</label>
+                                <select class="form-select" ngModel={{user?.enable}} name ="enable" aria-label="Default select example" required>
+                                  <option [value]="true" selected disabled hidden *ngIf="user?.enable; else disable">Enable</option>
+                                  <ng-template #disable>
+                                    <option [value]="false"  selected disabled hidden>Disable</option>
+                                  </ng-template>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col d-flex justify-content-end">
+                        <button  (click)="updateUserProfile(userProfileForm)"  class="btn btn-primary"id="btn-save" type="submit">Save Changes</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+              <h6 class="card-title font-weight-bold">List of Enroled Courses</h6>
+              <p class="card-text" *ngFor="let enrolmentOfUser of listEnrolmentOfUser">{{enrolmentOfUser?.course?.name}}</p>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+          <div class="card-body">
+            <h6 class="card-title font-weight-bold">Permission From Role</h6>
+            <div ngSwitch="user">
+              <p *ngSwitchCase="user?.role?.name == 'USER'" class="card-text" >user: read</p>
+            </div>
+          </div>
+      </div>
+      </div>
+    </div>
+</div>
+</div>
+</div>

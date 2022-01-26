@@ -1,0 +1,181 @@
+<div class="container" id="main-container">
+  <form class="search">
+    <div class="form-row">
+      <div class="col">
+        <input class="form-search" type="search" (ngModelChange)="searchCourse(input.value)" #input="ngModel" ngModel
+        name="input" placeholder="Search a course" aria-label="Search">
+      </div>
+      <div class="col"> 
+        <label for="categoryId" class="category-lable">Category</label> 
+        <select class="form-search"  (ngModelChange)="searchCourseOfCategory(categoryId.value)" #categoryId="ngModel" ngModel
+        name="categoryId"   id="categoryId" aria-label="Default select example" required>
+            <option  value="" selected disabled hidden>All</option>
+            <option  value="" >All</option>
+            <option  *ngFor="let category of listCategory" [value]="category?.id">{{category?.name}}</option>
+        </select>
+      </div>
+      <div class="col"> 
+        <label for="teacherId" class="teacher-lable">Teacher</label> 
+        <select class="form-search"  (ngModelChange)="searchCourseOfTeacher(teacherId.value)" #teacherId="ngModel" ngModel
+        name="teacherId"   id="teacherId" aria-label="Default select example" required>
+            <option  value="" selected disabled hidden>All</option>
+            <option  value="" >All</option>
+            <option  *ngFor="let teacher of listTeacher" [value]="teacher?.id">{{teacher?.name}}</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#addModal">Add</button>
+    </div>
+    <!-- use (ngModelChange) to listen everytime input change something in search -->
+  </form>    
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Course Id</th>
+              <th scope="col">Photo</th>
+              <th scope="col">Name</th>
+              <th scope="col">Start At</th>
+              <th scope="col">End At</th>
+              <th scope="col">Category</th>
+              <th scope="col">Teacher</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- repeat <tr> tag with *ngFor loop to get all student -->
+            <tr class ="table-tr-hover" *ngFor="let course of listCourse">
+              <td>{{course?.id}}</td>
+              <td><img src="http://courseenrollmentmanagementapplicaion-env.eba-tkyegmya.ap-southeast-1.elasticbeanstalk.com/api/course/show/{{course?.id}}/download/image"></td>
+              <td>{{course?.name}}</td>
+              <td>{{course?.start_at}}</td>
+              <td>{{course?.end_at}}</td>
+              <td>{{course?.category?.name}}</td>
+              <td>{{course?.teacher?.name}}</td>
+              <td>
+                <!-- Delete Modal -->
+                <button  class="btn btn-outline-danger" (click)="getCourse(course)" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                <!-- Edit Modal -->
+                <button  class="btn btn-outline-primary" (click)="getCourse(course)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Course</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form #addForm="ngForm" id="main-form-add" (ngSubmit)="addCourse(addForm)">
+              <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+              </div>
+              <div class="form-group">
+                  <label for="start_at">Start At</label>
+                  <input type="datetime-local" ngModel name="start_at" class="form-control" id="start_at" placeholder="Start At" required>
+              </div>
+                <div class="form-group">
+                    <label for="end_at">End At</label>
+                    <input type="datetime-local" ngModel name="end_at" class="form-control" id="end_at" placeholder="End At" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select class="form-select" ngModel name ="categoryId" aria-label="Default select example" required>
+                        <option  value ="" selected disabled hidden>Choose category</option>
+                        <option  *ngFor= "let category of listCategory" [ngValue] = "category?.id">{{category?.name}}</option>
+                      </select>
+                </div>
+                <div class="form-group">
+                    <label for="teacher">Teacher</label>
+                    <select class="form-select" ngModel name ="teacherId" aria-label="Default select example" required>
+                        <option  value ="" selected disabled hidden>Choose teacher</option>
+                        <option  *ngFor="let teacher of listTeacher" [ngValue] = "teacher?.id">{{teacher?.name}}</option>
+                      </select>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <input type="file" class="form-control" accept="image/png, image/jpeg, image/gif" id="image" placeholder="Image"  (change)="fileSelected($event)" required>
+                  </div>
+              <div class="modal-footer">
+                  <button type="button" id="add-student-close" id="btn-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button [disabled]="addForm.invalid"  type="submit" class="btn btn-primary" >Save changes</button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Course</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete {{course?.name}} course ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-no-delete" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button (click)="deleteCourse(course?.id)" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Course</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm">
+          <input type="hidden" ngModel={{course?.id}} name ="id" id="id" class="form-control" >
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" ngModel={{course?.name}} name="name" class="form-control" id="name" placeholder="Name" required>
+          </div>
+          <div class="form-group">
+            <label for="start_at">Start At</label>
+            <input type="datetime-local" ngModel={{course?.start_at}} name="start_at" class="form-control" id="start_at" placeholder="Start At" required>
+          </div>
+          <div class="form-group">
+              <label for="end_at">End At</label>
+              <input type="datetime-local" ngModel={{course?.end_at}} name="end_at" class="form-control" id="end_at" placeholder="End At" required>
+          </div>
+          <div class="form-group">
+              <label for="category">Category</label>
+              <select class="form-select" ngModel={{course?.category?.id}} name ="categoryId" aria-label="Default select example" required>
+                  <option  selected disabled hidden>{{course?.category?.name}}</option>
+                  <option  *ngFor="let category of listCategory" [value] ="category?.id">{{category?.name}}</option>
+                </select>
+          </div>
+          <div class="form-group">
+              <label for="teacher">Teacher</label>
+              <select class="form-select" ngModel={{course?.teacher?.id}} name ="teacherId" aria-label="Default select example" required>
+                  <option  selected disabled hidden>{{course?.teacher?.name}}</option>
+                  <option  *ngFor="let teacher of listTeacher" [value] = "teacher?.id">{{teacher?.name}}</option>
+                </select>
+          </div>
+          <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" class="form-control" accept="image/png, image/jpeg, image/gif" id="image" placeholder="Image"  (change)="fileSelected($event)" required>
+          </div>
+          <div class="modal-footer">
+              <button type="button" id="btn-edit-close" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+              <button (click)="updateCourse(updateForm) "  type="submit" class="btn btn-primary" >Save changes</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

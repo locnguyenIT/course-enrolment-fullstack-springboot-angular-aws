@@ -1,0 +1,101 @@
+<div class="container" id="main-container">
+  <form class="search">
+    <!-- use (ngModelChange) to listen everytime input change something in search -->
+     <input class="form-search" type="search" (ngModelChange)="searchCategory(input.value)" #input="ngModel" ngModel
+     name="input" placeholder="Search..." aria-label="Search">
+     <button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#addModal">Add</button>
+ </form>    
+     
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Cagory Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- repeat <tr> tag with *ngFor loop to get all student -->
+            <tr class ="table-tr-hover" *ngFor="let category of listCategory">
+              <td>{{category?.id}}</td>
+              <td>{{category?.name}}</td>
+              <td>
+                <!-- Delete Modal -->
+                <button  class="btn btn-outline-danger" (click)="getCategory(category)" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                <!-- Edit Modal -->
+                <button  class="btn btn-outline-primary" (click)="getCategory(category)" data-bs-toggle="modal" data-bs-target="#editModal">Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form #addForm="ngForm" (ngSubmit)="addCategory(addForm)">
+              <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" ngModel name="name" class="form-control" id="name" placeholder="Name" required>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" id="add-student-close" id="btn-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button [disabled]="addForm.invalid"  type="submit" class="btn btn-primary" >Save changes</button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Open modal to get data student just clicked button above and pass {{name}} (Delete)-->
+        <p>Are you sure want to delete {{category?.name}} ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-no-delete" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <!-- Open modal to get data student just clicked button above and pass {{id}} into function onDeleteStudent({{id}}) -->
+        <button (click)="deleteCategory(category?.id)" type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm">
+          <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" ngModel={{category?.name}} name ="name" class="form-control" id="name" placeholder="Name" required>
+          </div>
+          <!-- hidden button with id of student-->
+          <input type="hidden" ngModel={{category?.id}} name ="id" class="form-control" id="id">
+          <div class="modal-footer">
+              <button type="button" id="btn-edit-close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <!-- Form get all ngModel and passed into function UpdateStudent(updateform) -->
+              <button (click)="updateCategory(updateForm.value)"  type="submit" class="btn btn-primary" >Save changes</button>
+          </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+

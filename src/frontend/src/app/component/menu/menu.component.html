@@ -1,0 +1,60 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav-router">
+  <div class="container-fluid">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item ">
+         <a class="nav-link" routerLink="/menu/category">Category</a>
+      </li>
+    </ul>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item ">
+          <a class="nav-link" routerLink="/menu/teacher">Teacher</a>
+        </li>
+      </ul>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link"  routerLink="/menu/course">Course</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item ">
+        <a class="nav-link" routerLink="/menu/user">User</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item ">
+        <a class="nav-link" routerLink="/menu/enrolment">Enrollment</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item ">
+        <a class="nav-link"  routerLink="/menu/result">Result</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="nav-item ">
+        <a class="nav-link">Welcome</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link"  style="color: white;"  routerLink="/menu/user-profile" >{{user?.name}}</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" style="cursor: pointer;" (click)="signOut()">Sign Out</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" style="color: white;" routerLink="/menu/category">Category</a>
+    <a class="navbar-brand" style="color: white;" routerLink="/menu/teacher">Teacher</a>
+    <a class="navbar-brand" style="color: white;" routerLink="/menu/course">Course</a>
+    <a class="navbar-brand" style="color: white;" routerLink="/menu/user">User</a>
+    <a class="navbar-brand" style="color: white;" routerLink="/menu/enrolment">Enrolment</a>
+    <a class="navbar-brand" style="color: white;" routerLink="/menu/result">Result</a>
+    <a class="navbar-brand" style="color: white;" >Welcome</a>
+    <a class="navbar-brand" style="color: white;" routerLink="/menu/user-profile" >{{user?.name}}</a>
+    <a class="navbar-brand" style="color: white;" (click)="signOut()">Sign Out</a>
+  </div>
+</nav> -->
+<router-outlet></router-outlet>

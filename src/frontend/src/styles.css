@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css';
+.table-tr-hover:hover{
+    background-color: rgb(201, 212, 212);
+}
+.btn-outline-success{
+    float: right;
+    margin: 20px 0 15px 10px;
+    border-radius: 5px;
+}
+img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.form-search{
+    float: left;
+    margin: 20px 5px 15px 0;
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid silver;
+}
+.form-search:focus{
+    border: 3px solid skyblue;
+}

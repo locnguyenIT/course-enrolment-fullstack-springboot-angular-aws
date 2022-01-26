@@ -1,0 +1,11 @@
+.container {
+    margin-top: 30px;
+}
+.btn-primary{
+    margin-top: 10px;
+}
+
+.user-profile-image{
+    width: 125px;
+    height: 125px;
+}
