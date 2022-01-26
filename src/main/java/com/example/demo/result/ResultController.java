@@ -24,7 +24,7 @@ public class ResultController {
     @PostMapping(path = "/add/userId/{userId}/courseId/{courseId}/grade/{grade}")
     public void addResult(@PathVariable("userId") Integer userId,
                           @PathVariable("courseId") Integer courseId,
-                          @PathVariable("userId") Integer grade){
+                          @PathVariable("grade") Integer grade){
         resultService.addResult(userId,courseId,grade);
     }
 
