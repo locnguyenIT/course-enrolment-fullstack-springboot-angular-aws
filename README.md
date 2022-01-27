@@ -11,7 +11,7 @@ This project is an web application fullstack based on Spring Boot for the backen
 - After I finished building both frontend and backend then i use frontend-maven-plugin and maven-resources-plugin from maven to package frontend & backend to a single jar.
 - Next, using jib-maven-plugin to containerize project then build image and push image into docker hub and create docker-compose.yml to run docker container. 
 - Finally, upload docker-compose.yml file into AWS Elastic Beanstalk (Docker platform), AWS RDS to manage database, configuation security group and from that i have a new application version.
-
+- Also, I can implement CI/CD with Github Action to automatic deploy application into AWS but because this project using AWS SDK for Java to perform upload image and send email functionality. So, if you want to see the process of CI/CD with Github Action, you can go to https://github.com/locnguyenIT/student-management-fullstack-springboot-angular-docker-aws link here.
 ## Technology
 - Spring Boot
 - Spring Security (JWT)
