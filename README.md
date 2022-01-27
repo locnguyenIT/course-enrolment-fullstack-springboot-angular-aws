@@ -10,7 +10,7 @@ This project is an web application fullstack based on Spring Boot for the backen
 ![course-enrolment-process](https://user-images.githubusercontent.com/86077654/151339737-e835d989-6457-483c-9c00-b44da1db0caa.png)
 - After I finished building both frontend and backend then i use frontend-maven-plugin and maven-resources-plugin from maven to package frontend & backend to a single jar.
 - Next, using jib-maven-plugin to containerize project then build image and push image into docker hub and create docker-compose.yml to run docker container. 
-- Finally, deploy & run docker-compose.yml file into AWS Elastic Beanstalk (Docker platform), AWS RDS to manage database, configuation security group and from that i have a new application version.
+- Finally, upload docker-compose.yml file into AWS Elastic Beanstalk (Docker platform), AWS RDS to manage database, configuation security group and from that i have a new application version.
 
 ## Technology
 - Spring Boot
