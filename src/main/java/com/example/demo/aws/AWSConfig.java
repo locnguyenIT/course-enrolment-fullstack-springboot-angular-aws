@@ -21,7 +21,7 @@ public class AWSConfig {
     {
         return AmazonS3ClientBuilder
                 .standard()
-                .withRegion(Regions.AP_SOUTHEAST_1)
+                .withRegion("Your-Region")
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .build();
     }
@@ -30,7 +30,7 @@ public class AWSConfig {
     public AmazonSimpleEmailService emailService () {
         return AmazonSimpleEmailServiceClientBuilder
                 .standard()
-                .withRegion(Regions.AP_SOUTHEAST_1)
+                .withRegion("Your-Region")
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .build();
     }
