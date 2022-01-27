@@ -14,7 +14,7 @@ This project is an web application fullstack based on Spring Boot for the backen
 
 ## Technology
 - Spring Boot
-- Spring Security with JWT
+- Spring Security (JWT)
 - Spring Data JPA
 - Spring MVC
 - Hibernate
