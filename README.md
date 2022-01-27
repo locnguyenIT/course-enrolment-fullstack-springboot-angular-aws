@@ -22,7 +22,7 @@ This project is an web application fullstack based on Spring Boot for the backen
 - MySQL
 - Maven
 - Docker
-- AWS (RDS & Elastic Beantalk)
+- AWS (RDS & Elastic Beantalk & S3 & SES)
 
 ## ER Diagram
 ![course-erd-db](https://user-images.githubusercontent.com/86077654/151331653-bab70812-bf76-4826-b024-e1ca6e929907.png)
