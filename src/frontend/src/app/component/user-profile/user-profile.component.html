@@ -31,13 +31,13 @@
                           <div class="col">
                             <div class="form-group">
                               <label>ID</label>
-                              <input type="text" class="form-control"  ngModel={{user?.id}} name ="id" readonly> 
+                              <input type="text" class="form-control"  ngModel={{user?.id}} name ="id" readonly>
                             </div>
                           </div>
                           <div class="col">
                             <div class="form-group">
                               <label>Name</label>
-                              <input class="form-control" type="text" ngModel={{user?.name}} name="name"> 
+                              <input class="form-control" type="text" ngModel={{user?.name}} name="name">
                             </div>
                           </div>
                         </div>
@@ -114,15 +114,6 @@
               <p class="card-text" *ngFor="let enrolmentOfUser of listEnrolmentOfUser">{{enrolmentOfUser?.course?.name}}</p>
             </div>
         </div>
-        <br>
-        <div class="card">
-          <div class="card-body">
-            <h6 class="card-title font-weight-bold">Permission From Role</h6>
-            <div ngSwitch="user">
-              <p *ngSwitchCase="user?.role?.name == 'USER'" class="card-text" >user: read</p>
-            </div>
-          </div>
-      </div>
       </div>
     </div>
 </div>
