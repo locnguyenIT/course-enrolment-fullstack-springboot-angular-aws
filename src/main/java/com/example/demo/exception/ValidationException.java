@@ -18,7 +18,7 @@ import java.util.Map;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ValidationException {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class) //Handle validation exception instance of object
+    @ExceptionHandler(MethodArgumentNotValidException.class) //Handle validation exception attribute of object
     public Map<String, String> handleValidationException(MethodArgumentNotValidException exception) {
         Map<String,String> errors = new HashMap<>();
         exception.getBindingResult().getAllErrors().forEach((error) -> {
